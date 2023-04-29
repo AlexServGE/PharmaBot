@@ -10,12 +10,13 @@ class SqlApiIns:
 
     def establish_sql_connection(self):
         try:
-            con = sqlite3.connect('Procurements.db')
+            con = sqlite3.connect('../ProcurementsDB/Procurements.db')
             print("Connection is established: Database is created in memory")
             return con
         except Error:
             print(Error)
 
+    # Необходимо добавить столбец "Категория лекарственных препаратов"
     def create_daily_procurements_table(self):
         cursorObj = self.con.cursor()
         cursorObj.execute(
@@ -26,28 +27,31 @@ class SqlApiIns:
             "procurement_link VARCHAR(45), "
             "procurement_object VARCHAR(45), "
             "procurement_customer VARCHAR(45), "
+            "procurement_federal_region VARCHAR(45),"
             "procurement_region VARCHAR(45),"
             "procurement_publication_date VARCHAR(45),"
             "procurement_due_date VARCHAR(45),"
-            "procurement_total_value VARCHAR(45)"
+            "procurement_total_value VARCHAR(45),"
+            "UNIQUE(procurement_id)"
             ")")
         self.con.commit()
 
     def sql_insert_daily_procurements(self, entities):
         cursorObj = self.con.cursor()
-        cursorObj.executemany(
+        cursorObj.execute(
             'INSERT INTO daily_new_procurements('
             'procurement_id, '
             'procurement_link, '
             'procurement_object, '
             'procurement_customer, '
+            'procurement_federal_region,'
             'procurement_region,'
             'procurement_publication_date,'
             'procurement_due_date,'
             'procurement_total_value'
             ') '
             'VALUES('
-            '?, ?, ?, ?, ?,?,?,?)',
+            '?, ?, ?, ?, ?,?,?,?,?)',
             entities)
         self.con.commit()
 
