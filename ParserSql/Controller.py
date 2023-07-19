@@ -120,5 +120,6 @@ class Controller:
             "Сахалинская обл": "Дальневосточный",
             "Хабаровский край": "Дальневосточный",
             "Чукотский АО": "Дальневосточный",
+            "Байконур г": "Казахстан",
         }
         self.controller_daily_procurements = ControllerDailyProcurements(contrast_media_list_filter, federal_region_dict)

@@ -22,5 +22,12 @@ if __name__=='__main__':
 
     raw_web_page = RawWebPage(url)
 
-    print(raw_web_page.soup_content.find_all("div", "registry-entry__header-mid__number")[0].get_text(strip=True))
-    print(raw_web_page.soup_content.find_all("div", "registry-entry__header-mid__number")[0].find_all("a")[0].get("href"))
+    # for el in raw_web_page.soup_content.find_all('a'):
+    #     print(type(el))
+
+
+    tag = raw_web_page.soup_content.find('p')
+    print(tag.find('a'))
+
+    # print(raw_web_page.soup_content.find_all("div", "registry-entry__header-mid__number")[0].get_text(strip=True))
+    # print(raw_web_page.soup_content.find_all("div", "registry-entry__header-mid__number")[0].find_all("a")[0].get("href"))
