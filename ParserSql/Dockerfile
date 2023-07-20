@@ -1,5 +1,7 @@
 FROM python:3.9
-COPY ../ ./
+RUN mkdir ./ParserSql/
+COPY ./ ./ParserSql/
+RUN mkdir ./ProcurementsDB/
 RUN apt update && apt install sqlite3
-RUN python -m pip install -r ./requirements.txt
-CMD [ "python", "main.py" ]
+RUN python -m pip install -r ./ParserSql/requirements.txt
+CMD [ "python", "./ParserSql/main.py" ]
