@@ -1,9 +1,8 @@
 from Controller import Controller
 from telegram.error import InvalidToken
 
-
 with open('Token.txt', 'r', encoding='utf-8') as file:
-    token = file.read()
+    token = file.read().strip("\n")
 
 try:
     controller = Controller(token)
