@@ -1,5 +1,4 @@
 import sqlite3
-import os
 from sqlite3 import Error
 from datetime import datetime, timedelta
 
@@ -11,8 +10,7 @@ class SqlApiSel:
 
     def establish_sql_connection(self):
         try:
-
-            con = sqlite3.connect(os.path.join(os.path.split(os.getcwd())[0], "ProcurementsDB\\Procurements.db"))
+            con = sqlite3.connect("../ProcurementsDB/Procurements.db")
             print("Connection is established: Database is created in memory")
             return con
         except Error:
