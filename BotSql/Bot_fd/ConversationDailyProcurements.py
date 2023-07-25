@@ -145,7 +145,7 @@ class ConversationDailyProcurements:
         self.logger.info("Пользователь %s отменил разговор.", user.first_name)
         # Отвечаем на отказ поговорить
         update.message.reply_text(
-            'Моё дело предложить - Ваше отказаться.'
+            'Моё дело предложить - Ваше отказаться. '
             'Будет скучно - пишите.',
             reply_markup=ReplyKeyboardRemove()
         )
