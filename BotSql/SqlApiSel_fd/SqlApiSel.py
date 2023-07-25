@@ -22,8 +22,9 @@ class SqlApiSel:
         today = datetime.today().date().strftime("%d.%m.%Y")
         yesterday_datetime = datetime.today().date() - timedelta(days=1)
         yesterday = yesterday_datetime.strftime("%d.%m.%Y")
+        yesterdaytwice = (yesterday_datetime - timedelta(days=1)).strftime("%d.%m.%Y")
 
-        cursorObj.execute(f'SELECT procurement_id,procurement_publication_date,procurement_customer,procurement_total_value,procurement_object,procurement_link FROM daily_new_procurements WHERE procurement_federal_region = "{user_filters[1]}" AND procurement_publication_date BETWEEN "{yesterday}" AND "{today}"') ## необходимо использовать функцию, которая передаёт текущий день в where
+        cursorObj.execute(f'SELECT procurement_id,procurement_publication_date,procurement_customer,procurement_total_value,procurement_object,procurement_link FROM daily_new_procurements WHERE procurement_federal_region = "{user_filters[1]}" AND procurement_publication_date BETWEEN "{yesterdaytwice}" AND "{yesterday}"') ## необходимо использовать функцию, которая передаёт текущий день в where
         selected_data_list = cursorObj.fetchall()
         return selected_data_list
 

@@ -14,6 +14,7 @@ class ControllerDailyProcurements:
 
     def __init__(self, inn_medicine_list_filter, federal_region_dict):
         self.procurements_db = SqlApiIns()
+        self.SLEEP_SECONDS = 120
         self.pharmbot_ver001_INN_list_session(inn_medicine_list_filter, federal_region_dict)
 
     def pharmbot_ver001_INN_list_session(self, inn_medicine_list_filter, federal_region_dict):
@@ -32,6 +33,7 @@ class ControllerDailyProcurements:
                                 '&priceContractAdvantages94IdNameHidden=%7B%7D' \
                                 '&currencyIdGeneral=-1' \
                                 f'&publishDateFrom={yesterday}' \
+                                f'&publishDateTo={yesterday}' \
                                 '&selectedSubjectsIdNameHidden=%7B%7D' \
                                 '&okdpGroupIdsIdNameHidden=%7B%7D' \
                                 '&koksIdsIdNameHidden=%7B%7D' \
@@ -40,11 +42,9 @@ class ControllerDailyProcurements:
                                 '&orderPlacement94_0=0&orderPlacement94_1=0&orderPlacement94_2=0&contractPriceCurrencyId=-1' \
                                 '&budgetLevelIdNameHidden=%7B%7D' \
                                 '&nonBudgetTypesIdNameHidden=%7B%7D&gws=%D0%92%D1%8B%D0%B1%D0%B5%D1%80%D0%B8%D1%82%D0%B5+%D1%82%D0%B8%D0%BF+%D0%B7%D0%B0%D0%BA%D1%83%D0%BF%D0%BA%D0%B8'
-            # возможные дополнительные критерии загрузки url_search_engine
-            # f'&publishDateTo={today}' \
 
             # ---------------------sleep
-            time.sleep(random.randint(15, 25))
+            time.sleep(random.randint(self.SLEEP_SECONDS, self.SLEEP_SECONDS+20))
             raw_search_engine_page = RawWebPage(url_search_engine)  # возможно стоит добавить обработку иключений
             search_engine_page_inn = SearchEnginePage(raw_search_engine_page.soup_content)
             # сливаем все search_engine_page_inn в один словарь, а затем исполняем pharmbot_ver001_INN_session без fake
@@ -82,7 +82,7 @@ class ControllerDailyProcurements:
         for procurement_id, procurement_link in process_workload.items():
             # можно добавить логи здесь
             #---------------------sleep
-            time.sleep(random.randint(15,25))
+            time.sleep(random.randint(self.SLEEP_SECONDS, self.SLEEP_SECONDS+20))
             raw_procurement_page = RawWebPage(procurement_link)
             common_info_page = CommonInfoPage(raw_procurement_page.soup_content)
             today_procurement_tuple = (
