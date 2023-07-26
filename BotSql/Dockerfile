@@ -3,6 +3,7 @@ RUN mkdir ./BotSql/
 COPY ./ ./BotSql/
 RUN mkdir ./ProcurementsDB/
 RUN apt update && apt install sqlite3
+RUN timedatectl set-timezone Europe/Moscow
 RUN python -m pip install -r ./BotSql/requirements.txt
 WORKDIR ./BotSql/
 CMD [ "python", "main.py" ]
