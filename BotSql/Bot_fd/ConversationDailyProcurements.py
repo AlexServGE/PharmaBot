@@ -19,7 +19,6 @@ class ConversationDailyProcurements:
         self.logger = logger
 
     def pharmbot_ver001_test_session(self):
-
         # Определяем константы этапов разговора
         global CATEGORY, FEDERALREGION
         CATEGORY, FEDERALREGION = range(2)
@@ -115,10 +114,9 @@ class ConversationDailyProcurements:
         # Создаем связь с SQL, чтобы получить данные и передать пользователю
         sql_api_sel = SqlApiSel()
         selected_data_list = sql_api_sel.sql_select_daily_procurements(user_filters)
+        sql_api_sel.con.close()
         for procurement in selected_data_list:
-            context.bot.send_message(update.effective_chat.id,"\n".join(procurement))
-
-
+            context.bot.send_message(update.effective_chat.id, "\n".join(procurement))
 
         # переходим к этапу `LOCATION`
         return ConversationHandler.END

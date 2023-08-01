@@ -6,15 +6,16 @@ from datetime import datetime, timedelta
 class SqlApiSel:
 
     def __init__(self):
-        self.con = self.establish_sql_connection()
+        self.con = None
+        self.establish_sql_connection()
 
     def establish_sql_connection(self):
         try:
-            con = sqlite3.connect("../ProcurementsDB/Procurements.db")
+            self.con = sqlite3.connect("../ProcurementsDB/Procurements.db")
             print("Connection is established: Database is created in memory")
-            return con
         except Error:
             print(Error)
+            self.con.close()
 
     def sql_select_daily_procurements(self,user_filters):
         cursorObj = self.con.cursor()
