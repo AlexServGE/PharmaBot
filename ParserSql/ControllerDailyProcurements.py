@@ -16,6 +16,7 @@ class ControllerDailyProcurements:
         self.procurements_db = SqlApiIns()
         self.SLEEP_SECONDS = 120
         self.pharmbot_ver001_INN_list_session(inn_medicine_list_filter, federal_region_dict)
+        self.procurements_db.con.close()
 
     def pharmbot_ver001_INN_list_session(self, inn_medicine_list_filter, federal_region_dict):
         search_engine_page_inn_total_dict = dict()

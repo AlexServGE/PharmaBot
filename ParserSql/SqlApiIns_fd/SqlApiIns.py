@@ -6,16 +6,17 @@ from sqlite3 import Error
 class SqlApiIns:
 
     def __init__(self):
-        self.con = self.establish_sql_connection()
+        self.con = None
+        self.establish_sql_connection()
         self.create_daily_procurements_table()
 
     def establish_sql_connection(self):
         try:
-            con = sqlite3.connect("../ProcurementsDB/Procurements.db")
+            self.con = sqlite3.connect("../ProcurementsDB/Procurements.db")
             print("Connection is established: Database is created in memory")
-            return con
         except Error:
             print(Error)
+            self.con.close()
 
     # Необходимо добавить столбец "Категория лекарственных препаратов"
     def create_daily_procurements_table(self):
