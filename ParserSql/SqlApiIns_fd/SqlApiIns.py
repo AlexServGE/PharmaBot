@@ -27,6 +27,7 @@ class SqlApiIns:
             "id integer PRIMARY KEY AUTOINCREMENT, "
             "procurement_id VARCHAR(45), "
             "procurement_link VARCHAR(45), "
+            "pharma_category_title VARCHAR(45), "
             "procurement_object VARCHAR(45), "
             "procurement_customer VARCHAR(45), "
             "procurement_federal_region VARCHAR(45),"
@@ -44,6 +45,7 @@ class SqlApiIns:
             'INSERT INTO daily_new_procurements('
             'procurement_id, '
             'procurement_link, '
+            'pharma_category_title, '
             'procurement_object, '
             'procurement_customer, '
             'procurement_federal_region,'
@@ -53,7 +55,7 @@ class SqlApiIns:
             'procurement_total_value'
             ') '
             'VALUES('
-            '?, ?, ?, ?, ?,?,?,?,?)',
+            '?, ?, ?, ?, ?,?,?,?,?,?)',
             entities)
         self.con.commit()
 

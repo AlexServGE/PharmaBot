@@ -12,13 +12,14 @@ import urllib.parse
 
 class ControllerDailyProcurements:
 
-    def __init__(self, inn_medicine_list_filter, federal_region_dict):
+    def __init__(self, inn_medicine_list_filter, pharma_category_title, federal_region_dict):
         self.procurements_db = SqlApiIns()
-        self.SLEEP_SECONDS = 120
-        self.pharmbot_ver001_INN_list_session(inn_medicine_list_filter, federal_region_dict)
+        self.SLEEP_SECONDS = 0  # 120
+        self.SLEEP_EXTRA_SECONDS = 0  # 20
+        self.pharmbot_ver001_INN_list_session(inn_medicine_list_filter, pharma_category_title, federal_region_dict)
         self.procurements_db.con.close()
 
-    def pharmbot_ver001_INN_list_session(self, inn_medicine_list_filter, federal_region_dict):
+    def pharmbot_ver001_INN_list_session(self, inn_medicine_list_filter, pharma_category_title, federal_region_dict):
         search_engine_page_inn_total_dict = dict()
         for inn_medicine in inn_medicine_list_filter:
             # inn_medicine_url_coded = urllib.parse.quote(inn_medicine)
@@ -45,19 +46,19 @@ class ControllerDailyProcurements:
                                 '&nonBudgetTypesIdNameHidden=%7B%7D&gws=%D0%92%D1%8B%D0%B1%D0%B5%D1%80%D0%B8%D1%82%D0%B5+%D1%82%D0%B8%D0%BF+%D0%B7%D0%B0%D0%BA%D1%83%D0%BF%D0%BA%D0%B8'
 
             # ---------------------sleep
-            time.sleep(random.randint(self.SLEEP_SECONDS, self.SLEEP_SECONDS+20))
+            time.sleep(random.randint(self.SLEEP_SECONDS, self.SLEEP_SECONDS + self.SLEEP_EXTRA_SECONDS))
             raw_search_engine_page = RawWebPage(url_search_engine)  # возможно стоит добавить обработку иключений
             search_engine_page_inn = SearchEnginePage(raw_search_engine_page.soup_content)
             # сливаем все search_engine_page_inn в один словарь, а затем исполняем pharmbot_ver001_INN_session без fake
             search_engine_page_inn_total_dict.update(search_engine_page_inn.search_results_dict)
-        self.pharmbot_ver001_INN_session(search_engine_page_inn_total_dict, federal_region_dict)
+        self.pharmbot_ver001_INN_session(search_engine_page_inn_total_dict,pharma_category_title, federal_region_dict)
 
     def pharmbot_ver001_INN_session(self,
-                                    search_engine_page_inn_total_dict, federal_region_dict):
+                                    search_engine_page_inn_total_dict,pharma_category_title, federal_region_dict):
         """Создает list c tuples, который затем передает в базу данных"""
         process_workload = search_engine_page_inn_total_dict
 
-        #добавить чистку process_workload, чтобы сократить количество запросов к серверу
+        # добавить чистку process_workload, чтобы сократить количество запросов к серверу
         # for procurement_id, procurement_link in process_workload.items():
         #     fake_today_procurement_tuple = (
         #         (procurement_id,
@@ -79,16 +80,17 @@ class ControllerDailyProcurements:
         #         print(
         #             f"IntegrityError occurred, while sqlite INSERT {today_procurement_tuple[0]}. This procurement is already in the db")
 
-        #процесс сбора данных со страниц из словаря search_engine_page_inn_total_dict и внесение данных в бд
+        # процесс сбора данных со страниц из словаря search_engine_page_inn_total_dict и внесение данных в бд
         for procurement_id, procurement_link in process_workload.items():
             # можно добавить логи здесь
-            #---------------------sleep
-            time.sleep(random.randint(self.SLEEP_SECONDS, self.SLEEP_SECONDS+20))
+            # ---------------------sleep
+            time.sleep(random.randint(self.SLEEP_SECONDS, self.SLEEP_SECONDS + self.SLEEP_EXTRA_SECONDS))
             raw_procurement_page = RawWebPage(procurement_link)
             common_info_page = CommonInfoPage(raw_procurement_page.soup_content)
             today_procurement_tuple = (
                 (procurement_id,
                  procurement_link,
+                 pharma_category_title,
                  common_info_page.MainInfoHeader.object,
                  common_info_page.MainInfoHeader.customer,
                  federal_region_dict[common_info_page.CustomerContactInfoBlock.procurement_customer_region],

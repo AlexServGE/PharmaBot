@@ -30,7 +30,9 @@ class ConversationDailyProcurements:
             entry_points=[CommandHandler('start', self.start)],
             # этапы разговора, каждый со своим списком обработчиков сообщений
             states={
-                CATEGORY: [MessageHandler(Filters.regex('^(21.20.23.112: Вещества контрастные)$'), self.category)],
+                CATEGORY: [MessageHandler(Filters.regex(
+                    '^(21.20.23.112: Вещества контрастные|21.20.10.191: Препараты антибактериальные для системного использования|21.20.10.190: Препараты противомикробные для системного использования)$'),
+                    self.category)],
                 FEDERALREGION: [MessageHandler(Filters.regex('^(Центральный|Северо-Западный|Южный|'
                                                              'Приволжский|Уральский|Сибирский|'
                                                              'Дальневосточный|Северо-Кавказский)$'),
@@ -46,7 +48,7 @@ class ConversationDailyProcurements:
     # функция обратного вызова точки входа в разговор
     def start(self, update, context):
         # Список кнопок для ответа
-        reply_keyboard = [['21.20.23.112: Вещества контрастные']]
+        reply_keyboard = [['21.20.23.112: Вещества контрастные'],['21.20.10.191: Препараты антибактериальные для системного использования'],['21.20.10.190: Препараты противомикробные для системного использования']]
         # Создаем простую клавиатуру для ответа
         markup_key = ReplyKeyboardMarkup(reply_keyboard, one_time_keyboard=True)
         # Начинаем разговор с вопроса
@@ -80,8 +82,7 @@ class ConversationDailyProcurements:
         markup_key = ReplyKeyboardMarkup(reply_keyboard, one_time_keyboard=True)
 
         # Наполняем список фильтров, выбранных пользователем для передачи в SqlApiSel
-        text = update.message.text
-        user_filters.append(text)
+        user_filters.append(update.message.text)
         # context.bot.send_message(update.effective_chat.id,
         #                          f'{update.effective_user.first_name} - написал - {text} ')
 
@@ -106,8 +107,7 @@ class ConversationDailyProcurements:
         )
 
         # Наполняем список фильтров, выбранных пользователем для передачи в SqlApiSel
-        text = update.message.text
-        user_filters.append(text)
+        user_filters.append(update.message.text)
         # context.bot.send_message(update.effective_chat.id,
         #                          f'{update.effective_user.first_name} - написал - {text} ')
 

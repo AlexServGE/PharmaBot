@@ -26,13 +26,13 @@ class SqlApiSel:
         today_week_day = datetime.today().weekday()
         if today_week_day == 0:
             cursorObj.execute(
-                f'SELECT procurement_id,procurement_publication_date,procurement_customer,procurement_total_value,procurement_object,procurement_link FROM daily_new_procurements WHERE procurement_federal_region = "{user_filters[1]}" AND procurement_publication_date BETWEEN "{(datetime.today().date() - timedelta(days=3)).strftime("%d.%m.%Y")}" AND "{yesterday}"')  ## необходимо использовать функцию, которая передаёт текущий день в where
+                f'SELECT procurement_id,procurement_publication_date,procurement_customer,procurement_total_value,procurement_object,procurement_link FROM daily_new_procurements WHERE pharma_category_title = "{user_filters[0]}" AND procurement_federal_region = "{user_filters[1]}" AND procurement_publication_date BETWEEN "{(datetime.today().date() - timedelta(days=3)).strftime("%d.%m.%Y")}" AND "{yesterday}"')  ## необходимо использовать функцию, которая передаёт текущий день в where
         elif today_week_day == 1:
             cursorObj.execute(
-                f'SELECT procurement_id,procurement_publication_date,procurement_customer,procurement_total_value,procurement_object,procurement_link FROM daily_new_procurements WHERE procurement_federal_region = "{user_filters[1]}" AND procurement_publication_date BETWEEN "{(datetime.today().date() - timedelta(days=4)).strftime("%d.%m.%Y")}" AND "{yesterday}"')  ## необходимо использовать функцию, которая передаёт текущий день в where
+                f'SELECT procurement_id,procurement_publication_date,procurement_customer,procurement_total_value,procurement_object,procurement_link FROM daily_new_procurements WHERE pharma_category_title = "{user_filters[0]}" AND procurement_federal_region = "{user_filters[1]}" AND procurement_publication_date BETWEEN "{(datetime.today().date() - timedelta(days=4)).strftime("%d.%m.%Y")}" AND "{yesterday}"')  ## необходимо использовать функцию, которая передаёт текущий день в where
         else:
             cursorObj.execute(
-                f'SELECT procurement_id,procurement_publication_date,procurement_customer,procurement_total_value,procurement_object,procurement_link FROM daily_new_procurements WHERE procurement_federal_region = "{user_filters[1]}" AND procurement_publication_date BETWEEN "{yesterdaytwice}" AND "{yesterday}"')  ## необходимо использовать функцию, которая передаёт текущий день в where
+                f'SELECT procurement_id,procurement_publication_date,procurement_customer,procurement_total_value,procurement_object,procurement_link FROM daily_new_procurements WHERE pharma_category_title = "{user_filters[0]}" AND procurement_federal_region = "{user_filters[1]}" AND procurement_publication_date BETWEEN "{yesterdaytwice}" AND "{yesterday}"')  ## необходимо использовать функцию, которая передаёт текущий день в where
         selected_data_list = cursorObj.fetchall()
         return selected_data_list
 
